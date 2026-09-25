@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Productos químicos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        /* Adaptación para celulares */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 10px;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        /* Imágenes */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Videos */
+        video {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Botones */
+        button, a {
+            max-width: 100%;
+        }
+
+        /* Cuadros y contenido */
+        .contenedor {
+            width: 100%;
+            max-width: 100%;
+            margin: auto;
+        }
+
+        /* Para celulares */
+        @media (max-width: 600px) {
+
+            body {
+                font-size: 16px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            h2 {
+                font-size: 23px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+
+            .boton {
+                width: 100%;
+                margin: 5px 0;
+            }
+
+            .contenedor {
+                width: 100%;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body bgcolor="#ADFF2F">
+
+    <font size="7" color="green">Productos químicos</font>
+
+    <hr>
+
+    Esta es nuestra subsección sobre productos químicos. A continuación, seleccioná un producto para ver información:
+
+    <br><br>
+
+    <style>
+        .contenedor-botones {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .boton {
+            position: relative;
+            width: 270px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            border-radius: 10px;
+            overflow: hidden;
+            text-decoration: none;
+
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+            color: black;
+            font-family: Arial, sans-serif;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .iniciadores {
+            background-image: url("fuego.jpeg");
+        }
+
+        .alcohol {
+            background-image: url("gel.jpeg");
+        }
+
+        .nombre {
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+
+    <div class="contenedor-botones">
+
+        <a class="boton iniciadores" href="iniciadores de fuego.html">
+            <span class="nombre"><center>Iniciadores de fuego</center></span>
+        </a>
+
+        <a class="boton alcohol" href="alcohol en gel">
+            <span class="nombre">
+                <font color="white">Alcohol en gel</font>
+            </span>
+        </a>
+
+    </div>
+
+    <br>
+
+    <center>
+        <sub>
+            Si tiene dudas, los invitamos a leer nuestras
+        </sub>
+
+        <a href="Terminos y condiciones.html"
+           onclick="window.open(
+               this.href,
+               'ventana',
+               'width=800,height=600,left=' + ((screen.width-800)/2) +
+               ',top=' + ((screen.height-600)/2)
+           ); return false;">
+            <sub>Condiciones.</sub>
+        </a>
+    </center>
+
+</body>
+</html>
+```
