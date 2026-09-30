@@ -343,198 +343,187 @@ body {
     <p align="left">
         Si ha comprado nuestro producto, lo invitamos a dejar un comentario opcional:
     </p>
+<!-- SISTEMA DE COMENTARIOS -->
+<div class="comentarios">
+    <h2>Dejá tu comentario</h2>
 
-    <!-- SISTEMA DE COMENTARIOS -->
+    <input type="text" id="nombre" placeholder="Tu nombre de usuario">
 
-    <div class="comentarios">
+    <textarea id="comentario" placeholder="Escribí tu comentario"></textarea>
 
-        <h2>Dejá tu comentario</h2>
+    <p>Calificación:</p>
 
-        <input type="text" id="nombre" placeholder="Tu nombre de usuario">
-
-        <textarea id="comentario" placeholder="Escribí tu comentario"></textarea>
-
-        <p>Calificación:</p>
-
-        <div class="estrellas" id="estrellas">
-            <span data-valor="1">★</span>
-            <span data-valor="2">★</span>
-            <span data-valor="3">★</span>
-            <span data-valor="4">★</span>
-            <span data-valor="5">★</span>
-        </div>
-
-        <button onclick="publicarComentario()">
-            Publicar comentario
-        </button>
-
-        <div id="listaComentarios"></div>
-
+    <div class="estrellas" id="estrellas">
+        <span data-valor="1">★</span>
+        <span data-valor="2">★</span>
+        <span data-valor="3">★</span>
+        <span data-valor="4">★</span>
+        <span data-valor="5">★</span>
     </div>
 
-    <style>
-        .comentarios {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            border: 2px solid #0000ff;
-            border-radius: 20px;
-            font-family: Arial, sans-serif;
-            background-color: #87CEEB;
-        }
+    <button onclick="publicarComentario()">Publicar comentario</button>
 
-        .comentarios h2 {
-            text-align: center;
-        }
+    <div id="listaComentarios"></div>
+</div>
 
-        #nombre,
-        #comentario {
-            width: 100%;
-            box-sizing: border-box;
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid #aaa;
-            border-radius: 8px;
-        }
+<style>
+.comentarios {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 2px solid #0000ff;
+    border-radius: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #87CEEB;
+}
 
-        #comentario {
-            height: 100px;
-            resize: vertical;
-        }
+.comentarios h2 {
+    text-align: center;
+}
 
-        .estrellas {
-            font-size: 35px;
-            cursor: pointer;
-            margin-bottom: 15px;
-        }
+#nombre,
+#comentario {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #aaa;
+    border-radius: 8px;
+}
 
-        .estrellas span {
-            color: #ccc;
-        }
+#comentario {
+    height: 100px;
+    resize: vertical;
+}
 
-        .estrellas span.seleccionada {
-            color: gold;
-        }
+.estrellas {
+    font-size: 35px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
 
-        .comentarios button {
-            padding: 10px 18px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
+.estrellas span {
+    color: #ccc;
+}
 
-        .comentarios button:hover {
-            background: #0056b3;
-        }
+.estrellas span.seleccionada {
+    color: gold;
+}
 
-        .comentario-publicado {
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-        }
+.comentarios button {
+    padding: 10px 18px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
 
-        .comentario-publicado .estrellas-mostradas {
-            color: gold;
-        }
-    </style>
+.comentarios button:hover {
+    background: #0056b3;
+}
+
+.comentario-publicado {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.comentario-publicado .estrellas-mostradas {
+    color: gold;
+}
+</style>
 
     <script>
-        let calificacion = 0;
+const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbwsoNeCBa_zLPf6ObTYfEYlXutGEJjAXDFp2TZ1QzpyygLdPRXM-LtjqfbfsgTFsc4G/exec";
 
-        const estrellas = document.querySelectorAll("#estrellas span");
+let calificacion = 0;
+const estrellas = document.querySelectorAll("#estrellas span");
 
-        estrellas.forEach(estrella => {
+estrellas.forEach(estrella => {
+    estrella.addEventListener("click", function () {
+        calificacion = Number(this.dataset.valor);
 
-            estrella.addEventListener("click", function() {
+        estrellas.forEach(e => e.classList.remove("seleccionada"));
+        for (let i = 0; i < calificacion; i++) {
+            estrellas[i].classList.add("seleccionada");
+        }
+    });
+});
 
-                calificacion = Number(this.dataset.valor);
+function escaparHTML(texto) {
+    const div = document.createElement("div");
+    div.textContent = texto;
+    return div.innerHTML;
+}
 
-                estrellas.forEach(e => {
-                    e.classList.remove("seleccionada");
-                });
+async function publicarComentario() {
+    const nombre = document.getElementById("nombre").value.trim();
+    const comentario = document.getElementById("comentario").value.trim();
 
-                for (let i = 0; i < calificacion; i++) {
-                    estrellas[i].classList.add("seleccionada");
-                }
-            });
+    if (nombre === "" || comentario === "" || calificacion === 0) {
+        alert("Completá tu nombre, comentario y calificación.");
+        return;
+    }
+
+    const boton = document.querySelector(".comentarios button");
+    boton.disabled = true;
+    boton.textContent = "Enviando...";
+
+    try {
+        await fetch(URL_SCRIPT, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({ nombre, comentario, calificacion })
         });
 
-        function publicarComentario() {
+        document.getElementById("nombre").value = "";
+        document.getElementById("comentario").value = "";
+        calificacion = 0;
+        estrellas.forEach(e => e.classList.remove("seleccionada"));
 
-            const nombre = document.getElementById("nombre").value.trim();
-            const comentario = document.getElementById("comentario").value.trim();
+        alert("¡Gracias por tu comentario!");
+        setTimeout(mostrarComentarios, 1500);
+    } catch (error) {
+        alert("No se pudo enviar el comentario. Probá de nuevo.");
+    }
 
-            if (nombre === "" || comentario === "" || calificacion === 0) {
-                alert("Completá tu nombre, comentario y calificación.");
-                return;
+    boton.disabled = false;
+    boton.textContent = "Publicar comentario";
+}
+
+async function mostrarComentarios() {
+    const lista = document.getElementById("listaComentarios");
+
+    try {
+        const respuesta = await fetch(URL_SCRIPT);
+        const comentarios = await respuesta.json();
+
+        lista.innerHTML = "";
+
+        comentarios.forEach(c => {
+            let estrellasMostradas = "";
+            for (let i = 1; i <= 5; i++) {
+                estrellasMostradas += i <= c.calificacion ? "★" : "☆";
             }
 
-            const nuevoComentario = {
-                nombre: nombre,
-                comentario: comentario,
-                calificacion: calificacion
-            };
+            lista.innerHTML += `
+                <div class="comentario-publicado">
+                    <strong>${escaparHTML(String(c.nombre))}</strong>
+                    <div class="estrellas-mostradas">${estrellasMostradas}</div>
+                    <p>${escaparHTML(String(c.comentario))}</p>
+                </div>
+            `;
+        });
+    } catch (error) {
+        lista.innerHTML = "<p>No se pudieron cargar los comentarios.</p>";
+    }
+}
 
-            let comentarios =
-                JSON.parse(localStorage.getItem("comentarios")) || [];
-
-            comentarios.push(nuevoComentario);
-
-            localStorage.setItem(
-                "comentarios",
-                JSON.stringify(comentarios)
-            );
-
-            mostrarComentarios();
-
-            document.getElementById("nombre").value = "";
-            document.getElementById("comentario").value = "";
-
-            calificacion = 0;
-
-            estrellas.forEach(e => {
-                e.classList.remove("seleccionada");
-            });
-        }
-
-        function mostrarComentarios() {
-
-            const lista = document.getElementById("listaComentarios");
-
-            lista.innerHTML = "";
-
-            let comentarios =
-                JSON.parse(localStorage.getItem("comentarios")) || [];
-
-            comentarios.forEach(c => {
-
-                let estrellasMostradas = "";
-
-                for (let i = 1; i <= 5; i++) {
-                    estrellasMostradas +=
-                        i <= c.calificacion ? "★" : "☆";
-                }
-
-                lista.innerHTML += `
-                    <div class="comentario-publicado">
-                        <strong>${c.nombre}</strong>
-
-                        <div class="estrellas-mostradas">
-                            ${estrellasMostradas}
-                        </div>
-
-                        <p>${c.comentario}</p>
-                    </div>
-                `;
-            });
-        }
-
-        mostrarComentarios();
-    </script>
-
+mostrarComentarios();
+</script>
     <p align="center">
         Y, por último, si tenés una consulta o querés comprar, contactanos por WhatsApp.
     </p>
