@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
-</html>
+<html lang="es"></html>
 <head>
     <head>
     <meta charset="UTF-8">
@@ -93,56 +92,75 @@ button, a {
 </center>
 
 <font size="3" color="white">
-    Hola, bienvenidos a nuestra página web sobre productos para camping. Acá vamos a aportar información sobre iniciadores de fuego, alcohol en gel, leña, parrillas, etc. A continuación, seleccione una sección de la cual aparecerán subsecciones de nuestros productos, tanto caseros como revendidos:
+    Hola, bienvenidos a nuestra página web sobre productos para camping. Acá vamos a aportar información sobre iniciadores de fuego, alcohol en gel, etc. A continuación, seleccione una sección de la cual aparecerán subsecciones de nuestros productos, tanto caseros como revendidos:
 </font>
 
 <br><br>
 
 <style>
-.botonprincipal {
-    position: relative;
-    display: inline-block;
-    padding: 40px 76px;
-    color: black;
-    text-decoration: none;
-    border-radius: 10px;
-    font-size: 20px;
-    font-family: Arial, sans-serif;
-    overflow: hidden;
-}
+        .contenedor-botones {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
 
-.botonprincipal::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url("quimicos.jpeg");
-    background-size: cover;
-    background-position: center;
-    opacity: 1;
-    z-index: 0;
-}
+        .boton {
+            position: relative;
+            width: 320px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
-.botonprincipal font {
-    position: relative;
-    z-index: 1;
-}
-</style>
+            border-radius: 10px;
+            overflow: hidden;
+            text-decoration: none;
 
-<a class="botonprincipal" href="productos quimicos.html">
-    <font size="7">
-        <b>Productos<br>químicos</b>
-    </font>
-</a>
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
 
+            color: black;
+            font-family: Arial, sans-serif;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .productos {
+            background-image: url("quimicos.jpeg");
+        }
+
+        .entre {
+            background-image: url("Proximamente.png");
+        }
+
+        .nombre {
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+
+    <div class="contenedor-botones">
+
+        <a class="boton productos" href="productos quimicos.html">
+            <span class="nombre"><center><font size="7">Productos químicos</font></center></span>
+        </a>
+
+        <a class="boton entre" href="Entretenimiento">
+            <span class="nombre">
+                <font size="6" color="red">PROXIMAMENTE...</font>
+            </span>
+        </a>
+
+    </div>
 <center>
     <sub>
         <font color="white">
             Si tiene dudas, los invitamos a leer nuestras
         </font>
     </sub>
-
     <a href="Terminos y condiciones.html"
-   style="color: #ff0000; text-decoration: none;"
+   style="color: #ff0000;"
    onclick="window.open(
        this.href,
        'ventana',
