@@ -341,14 +341,13 @@ body {
     <p align="left">
         Si ha comprado nuestro producto, lo invitamos a dejar un comentario opcional:
     </p>
-
-    <!-- SISTEMA DE COMENTARIOS -->
+<!-- SISTEMA DE COMENTARIOS -->
 <div class="comentarios">
     <h2>Dejá tu comentario</h2>
 
-    <input type="text" id="nombre" placeholder="Tu nombre de usuario">
+    <input type="text" id="nombre" placeholder="Tu nombre de usuario" maxlength="50">
 
-    <textarea id="comentario" placeholder="Escribí tu comentario"></textarea>
+    <textarea id="comentario" placeholder="Escribí tu comentario" maxlength="500"></textarea>
 
     <p>Calificación:</p>
 
@@ -360,7 +359,7 @@ body {
         <span data-valor="5">★</span>
     </div>
 
-    <button onclick="publicarComentario()">Publicar comentario</button>
+    <button id="botonPublicar" onclick="publicarComentario()">Publicar comentario</button>
 
     <div id="listaComentarios"></div>
 </div>
@@ -422,6 +421,11 @@ body {
     background: #0056b3;
 }
 
+.comentarios button:disabled {
+    background: #888;
+    cursor: not-allowed;
+}
+
 .comentario-publicado {
     margin-top: 20px;
     padding: 15px;
@@ -436,6 +440,11 @@ body {
 
 <script>
 const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbwsoNeCBa_zLPf6ObTYfEYlXutGEJjAXDFp2TZ1QzpyygLdPRXM-LtjqfbfsgTFsc4G/exec";
+
+// Se detecta sola a partir del nombre del archivo de la página
+const PAGINA = decodeURIComponent(
+    location.pathname.split("/").filter(Boolean).pop() || "inicio"
+).replace(/\.html$/i, "").trim().toLowerCase();
 
 let calificacion = 0;
 const estrellas = document.querySelectorAll("#estrellas span");
@@ -466,7 +475,7 @@ async function publicarComentario() {
         return;
     }
 
-    const boton = document.querySelector(".comentarios button");
+    const boton = document.getElementById("botonPublicar");
     boton.disabled = true;
     boton.textContent = "Enviando...";
 
@@ -475,7 +484,7 @@ async function publicarComentario() {
             method: "POST",
             mode: "no-cors",
             headers: { "Content-Type": "text/plain;charset=utf-8" },
-            body: JSON.stringify({ nombre, comentario, calificacion })
+            body: JSON.stringify({ nombre, comentario, calificacion, pagina: PAGINA })
         });
 
         document.getElementById("nombre").value = "";
@@ -484,7 +493,7 @@ async function publicarComentario() {
         estrellas.forEach(e => e.classList.remove("seleccionada"));
 
         alert("¡Gracias por tu comentario!");
-        setTimeout(mostrarComentarios, 1500);
+        setTimeout(mostrarComentarios, 2000);
     } catch (error) {
         alert("No se pudo enviar el comentario. Probá de nuevo.");
     }
@@ -497,7 +506,7 @@ async function mostrarComentarios() {
     const lista = document.getElementById("listaComentarios");
 
     try {
-        const respuesta = await fetch(URL_SCRIPT);
+        const respuesta = await fetch(URL_SCRIPT + "?pagina=" + encodeURIComponent(PAGINA));
         const comentarios = await respuesta.json();
 
         lista.innerHTML = "";
